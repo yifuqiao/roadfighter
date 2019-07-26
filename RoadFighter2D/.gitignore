@@ -1,0 +1,11 @@
+Library
+Temp
+*.sln
+*.csproj
+obj/*
+Logs/*
+Build/*
+.vs/*
+.DS_Store
+Assets/QUVEditor
+Assets/QUVEditor.meta
