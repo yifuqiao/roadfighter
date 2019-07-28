@@ -20,6 +20,10 @@ public class PlayerControl : MonoBehaviourPunCallbacks
     {
         private set; get;
     }
+    public static PlayerControl OpponentInstance
+    {
+        private set; get;
+    }
 
     public float OnScreenXPos
     {
@@ -43,6 +47,8 @@ public class PlayerControl : MonoBehaviourPunCallbacks
         m_pView = GetComponentInChildren<PhotonView>();
         if (m_pView.IsMine)
             Instance = this;
+        else
+            OpponentInstance=this;
     }
 
     void Start()

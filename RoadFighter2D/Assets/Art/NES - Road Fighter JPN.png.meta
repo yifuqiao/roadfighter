@@ -19,12 +19,12 @@ TextureImporter:
     21300028: NES - Road Fighter JPN - General Sprites (1)_14
     21300030: NES - Road Fighter JPN - General Sprites (1)_15
     21300032: NES - Road Fighter JPN - General Sprites (1)_16
-    21300034: NES - Road Fighter JPN - General Sprites (1)_17
+    21300034: RedCar
     21300036: NES - Road Fighter JPN - General Sprites (1)_18
     21300038: NES - Road Fighter JPN - General Sprites (1)_19
     21300040: NES - Road Fighter JPN - General Sprites (1)_20
     21300042: NES - Road Fighter JPN - General Sprites (1)_21
-    21300044: NES - Road Fighter JPN - General Sprites (1)_22
+    21300044: GreenCar
     21300046: NES - Road Fighter JPN - General Sprites (1)_23
     21300048: NES - Road Fighter JPN - General Sprites (1)_24
     21300050: NES - Road Fighter JPN - General Sprites (1)_25
@@ -32,7 +32,7 @@ TextureImporter:
     21300054: NES - Road Fighter JPN - General Sprites (1)_27
     21300056: NES - Road Fighter JPN - General Sprites (1)_28
     21300058: NES - Road Fighter JPN - General Sprites (1)_29
-    21300060: NES - Road Fighter JPN - General Sprites (1)_30
+    21300060: YellowCar
     21300062: NES - Road Fighter JPN - General Sprites (1)_31
     21300064: NES - Road Fighter JPN - General Sprites (1)_32
     21300066: NES - Road Fighter JPN - General Sprites (1)_33
@@ -580,7 +580,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_17
+      name: RedCar
       rect:
         serializedVersion: 2
         x: 20
@@ -680,7 +680,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_22
+      name: GreenCar
       rect:
         serializedVersion: 2
         x: 20
@@ -840,7 +840,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_30
+      name: YellowCar
       rect:
         serializedVersion: 2
         x: 20

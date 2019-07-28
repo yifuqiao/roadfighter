@@ -44,6 +44,8 @@ namespace Photon.Pun.Demo.PunBasics
         [Tooltip("The prefab to use for representing the player")]
         [SerializeField]
         private GameObject playerPrefab;
+        [SerializeField]
+        private GameObject trackGenerator;
 
         [SerializeField]
         private GameObject globalCountDownPrefab;
@@ -79,7 +81,9 @@ namespace Photon.Pun.Demo.PunBasics
 
 					// we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
 					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,-10f), Quaternion.identity, 0);
-				}else{
+                    PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+                }
+                else{
 
 					Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
 				}
