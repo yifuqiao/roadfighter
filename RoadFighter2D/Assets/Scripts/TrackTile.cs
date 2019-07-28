@@ -11,6 +11,8 @@ public class TrackTile : MonoBehaviour
     }
     void Update()
     {
+        if (PlayerControl.Instance == null)
+            return;
         if(PlayerControl.Instance.transform.position.y - transform.position.y > m_disapearDistance)
         {
             gameObject.SetActive(false);

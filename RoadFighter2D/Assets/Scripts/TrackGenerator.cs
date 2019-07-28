@@ -25,7 +25,7 @@ public class TrackGenerator : MonoBehaviour
         m_tileLength = m_trackPrefabs[0].GetComponent<SpriteRenderer>().size.y;
         for ( m_newTileIndex = 0; m_newTileIndex < m_trackTileBufferSize; ++m_newTileIndex)
         {
-            GameObject.Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
+            Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
         }
         
     }

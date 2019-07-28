@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Transform m_car = null;
     [SerializeField] private Transform m_self = null;
@@ -13,10 +15,19 @@ public class PlayerControl : MonoBehaviour
 
     private bool m_bIsMovingLeft = false;
     private bool m_bIsMovingRight = false;
-
+    private PhotonView m_pView;
     public static PlayerControl Instance
     {
         private set; get;
+    }
+
+    public float OnScreenXPos
+    {
+        get
+        {
+            Vector3 screenPos = GetComponent<Camera>().WorldToScreenPoint(m_car.position);
+            return screenPos.x;
+        }
     }
 
     public enum CarState
@@ -29,37 +40,49 @@ public class PlayerControl : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        m_pView = GetComponentInChildren<PhotonView>();
+        if (m_pView.IsMine)
+            Instance = this;
     }
 
     void Start()
     {
-        InputManager.Instance.m_onLeft += OnLeft;
-        InputManager.Instance.m_onRight += OnRight;
+        if (m_pView.IsMine == false)
+        {
+            Destroy(GetComponent<Camera>());
+            Destroy(GetComponent<AudioListener>());
+            tag = "Untagged";
+        }
+        else
+        {
+            InputManager.Instance.m_onLeft += OnLeft;
+            InputManager.Instance.m_onRight += OnRight;
+        }
     }
 
     private void OnLeft(bool isMoving)
     {
-        m_bIsMovingLeft = isMoving;
+        if (isMoving == false)
+            return;
+
+        var offset = m_leftRightMoveSpeed * Time.deltaTime;
+        m_car.localPosition -= new Vector3(offset, 0f, 0f);
     }
 
     private void OnRight(bool isMoving)
     {
-        m_bIsMovingRight = isMoving;
+        if (isMoving == false)
+            return;
+
+        var offset = m_leftRightMoveSpeed * Time.deltaTime;
+        m_car.localPosition += new Vector3(offset, 0f, 0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        var offset = m_leftRightMoveSpeed * Time.deltaTime;
-        if (m_bIsMovingLeft)
-        {
-            m_car.localPosition -= new Vector3(offset, 0f, 0f);
-        }
-        if (m_bIsMovingRight)
-        {
-            m_car.localPosition += new Vector3(offset, 0f, 0f);
-        }
+        if (GameManager.Instance.GameOn == false)
+            return;
 
         if (m_currentSpeed < MAX_SPEED)
             m_currentSpeed += m_acceleration * Time.deltaTime;
