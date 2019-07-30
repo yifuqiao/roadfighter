@@ -70,7 +70,7 @@ public class TrackGenerator : MonoBehaviourPun
 
             var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
             
-            trackTile.Spawn(TrackGenerator.Instance.m_randIndexList[m_newTileIndex% TrackGenerator.Instance.m_randIndexList.Length]);
+            trackTile.Spawn(m_randIndexList[m_newTileIndex% m_randIndexList.Length]);
 
             m_deadTrackList.RemoveAt(0);
             m_newTileIndex++;
