@@ -36,6 +36,7 @@ public class NPCCarBehavior : MonoBehaviour
         {
             gameObject.SetActive(false);
             TrackGenerator.Instance.m_deadCarList.Add(gameObject);
+            m_bCanMove = false;
         }
 
     }
