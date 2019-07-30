@@ -265,8 +265,8 @@ MonoBehaviour:
   m_leftRightMoveSpeed: 1
   m_acceleration: 0.8
   m_curAcceleration: 0.8
-  m_deceleration: -3
-  m_collisionDecelerationTimer: 1
+  m_deceleration: -1
+  m_collisionDecelerationTimer: 0.6
   m_collisionDecelerationAccuTime: 0
   m_currentState: 0
   MAX_SPEED: 4
