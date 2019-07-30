@@ -47,7 +47,7 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
             {
                 m_randIndexList[i]=(Random.Range(0, 5));
             }
-            photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, (object)m_randIndexList);
+            //photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, (object)m_randIndexList);
         }
     }
 
