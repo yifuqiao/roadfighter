@@ -50,18 +50,10 @@ namespace Photon.Pun.Demo.PunBasics
         [SerializeField]
         private GameObject globalCountDownPrefab;
 
-        public int[] m_randIndexList = new int[100];
         #endregion
 
         #region MonoBehaviour CallBacks
-        [PunRPC]
-        public void SynRandomList(int[] randArray)
-        {
-            for (int i = 0; i < randArray.Length; ++i)
-            {
-                m_randIndexList[i] = randArray[i];
-            }
-        }
+        
 
         /// <summary>
         /// MonoBehaviour method called on GameObject by Unity during initialization phase.
@@ -77,15 +69,6 @@ namespace Photon.Pun.Demo.PunBasics
 				SceneManager.LoadScene("PunBasics-Launcher");
 				return;
 			}
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                for (int i = 0; i < m_randIndexList.Length; ++i)
-                {
-                    m_randIndexList[i] = (Random.Range(0, 5));
-                }
-                photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, m_randIndexList);
-            }
 
             if (playerPrefab == null) { // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
 
@@ -105,8 +88,6 @@ namespace Photon.Pun.Demo.PunBasics
 
 					Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
 				}
-
-
 			}
 
 		}

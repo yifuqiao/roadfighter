@@ -10,7 +10,38 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] private TextMeshProUGUI m_text;
     [SerializeField] private int m_countDownStart = 3;
     private float m_accuTime = 0f;
-    
+    public int[] m_randIndexList = new int[100];
+
+    [PunRPC]
+    public void SynRandomList(int[] randArray)
+    {
+        for (int i = 0; i < randArray.Length; ++i)
+        {
+            m_randIndexList[i] = randArray[i];
+        }
+        CopyGenerator();
+    }
+
+    void CopyGenerator()
+    {
+        for(int i = 0; i < m_randIndexList.Length;++i)
+        {
+            TrackGenerator.Instance.m_randIndexList[i] = m_randIndexList[i];
+        }
+    }
+
+    void Awake()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            for (int i = 0; i < m_randIndexList.Length; ++i)
+            {
+                m_randIndexList[i] = (Random.Range(0, 5));
+            }
+            photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, m_randIndexList);
+            CopyGenerator();
+        }
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

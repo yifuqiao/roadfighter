@@ -13,6 +13,7 @@ public class TrackGenerator : MonoBehaviourPun
     
 
     [SerializeField] private GameObject m_NPCPrefab;
+    public int[] m_randIndexList = new int[100];
 
     private float m_tileLength = 0f;
     private int m_newTileIndex = 0;
@@ -69,7 +70,7 @@ public class TrackGenerator : MonoBehaviourPun
 
             var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
             
-            trackTile.Spawn(GameManager.Instance.m_randIndexList[m_newTileIndex% GameManager.Instance.m_randIndexList.Length]);
+            trackTile.Spawn(TrackGenerator.Instance.m_randIndexList[m_newTileIndex% TrackGenerator.Instance.m_randIndexList.Length]);
 
             m_deadTrackList.RemoveAt(0);
             m_newTileIndex++;
