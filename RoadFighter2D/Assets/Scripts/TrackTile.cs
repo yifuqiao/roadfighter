@@ -27,10 +27,7 @@ public class TrackTile : MonoBehaviour
 
     public void Spawn(int index)
     {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            var pos = m_spawnPoints[index].position;
-            TrackGenerator.Instance.SpawnNPCCar(pos.y, pos.x);
-        }
+        var pos = m_spawnPoints[index].position;
+        TrackGenerator.Instance.SpawnNPCCar(pos.y, pos.x);
     }
 }
