@@ -270,5 +270,6 @@ MonoBehaviour:
   m_collisionDecelerationAccuTime: 0
   m_currentState: 0
   MAX_SPEED: 4
+  m_currentSpeed: 0
   m_transparentMaterial: {fileID: 2100000, guid: 4625e4b7ad3564cecbb76612aca1b550,
     type: 2}

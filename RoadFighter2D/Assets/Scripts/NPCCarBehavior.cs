@@ -29,13 +29,5 @@ public class NPCCarBehavior : MonoBehaviour
         {
             transform.position += m_speed * Vector3.up * Time.deltaTime;
         }
-
-        var yDif = -transform.position.y + PlayerControl.Instance.transform.position.y;
-        var yDif2 = -transform.position.y + PlayerControl.OpponentInstance.transform.position.y;
-        if (yDif > TrackGenerator.Instance.TrackTileLength && yDif2 > TrackGenerator.Instance.TrackTileLength)
-        {
-            gameObject.SetActive(false);
-            TrackGenerator.Instance.m_deadCarList.Add(gameObject);
-        }
     }
 }

@@ -6,8 +6,8 @@ using UnityEngine;
 public class TrackTile : MonoBehaviour
 {
     private float m_disapearDistance = 0f;
-    [SerializeField] private Transform[] m_leftSpawnRegionAnchors;
-    [SerializeField] private Transform[] m_rightSpawnRegionAnchors;
+    [SerializeField] private Transform[] m_spawnPoints;
+    
 
 
     void Awake()
@@ -25,28 +25,12 @@ public class TrackTile : MonoBehaviour
         }
     }
 
-    public void Spawn()
+    public void Spawn(int index)
     {
         if(PhotonNetwork.IsMasterClient)
         {
-            var index = Random.Range(0, m_leftSpawnRegionAnchors.Length);
-            var anchorLeft = m_leftSpawnRegionAnchors[index];
-            var anchorRight = m_rightSpawnRegionAnchors[index];
-
-            var spawnX = Random.Range(anchorLeft.position.x, anchorRight.position.x);
-
-            var yDiff = PlayerControl.Instance.transform.position.y - PlayerControl.OpponentInstance.transform.position.y;
-            var yoffset = 0f;
-            if (yDiff> 0 )// master is winning
-            {
-                
-            }
-            else // opponent is winning
-            {
-                yoffset += Mathf.Abs(yDiff);
-            }
-
-            TrackGenerator.Instance.SpawnNPCCar(m_leftSpawnRegionAnchors[index].position.y+ yoffset, spawnX);
+            var pos = m_spawnPoints[index].position;
+            TrackGenerator.Instance.SpawnNPCCar(pos.y, pos.x);
         }
     }
 }
