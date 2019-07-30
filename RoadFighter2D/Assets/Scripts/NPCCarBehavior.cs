@@ -11,12 +11,17 @@ public class NPCCarBehavior : MonoBehaviour
     private void OnBecameVisible()
     {
         m_bCanMove = true;
-
     }
+
     private void OnBecameInvisible()
     {
-        m_bCanMove = false;
+        if(m_bCanMove == true)
+        {
+            gameObject.SetActive(false);
+            TrackGenerator.Instance.m_deadCarList.Add(gameObject);
+        } 
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +31,8 @@ public class NPCCarBehavior : MonoBehaviour
         }
 
         var yDif = -transform.position.y + PlayerControl.Instance.transform.position.y;
-        if (yDif > TrackGenerator.Instance.TrackTileLength * 2f)
+        var yDif2 = -transform.position.y + PlayerControl.OpponentInstance.transform.position.y;
+        if (yDif > TrackGenerator.Instance.TrackTileLength && yDif2 > TrackGenerator.Instance.TrackTileLength)
         {
             gameObject.SetActive(false);
             TrackGenerator.Instance.m_deadCarList.Add(gameObject);
