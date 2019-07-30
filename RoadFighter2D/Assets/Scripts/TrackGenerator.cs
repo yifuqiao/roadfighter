@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TrackGenerator : MonoBehaviourPun , IPunObservable
+public class TrackGenerator : MonoBehaviourPun 
 {
     // Start is called before the first frame update
     [SerializeField] private GameObject[] m_trackPrefabs=null;
@@ -112,8 +112,5 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        
-    }
+    
 }
