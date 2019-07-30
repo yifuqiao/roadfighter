@@ -9,7 +9,6 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
     [SerializeField] private GameObject[] m_trackPrefabs=null;
     [SerializeField] private float[] m_trackPrefabSpawnPercentage=null;
     [SerializeField] private int m_trackTileBufferSize = 6;
-    [SerializeField] private int m_maxNPC = 3;
 
     [SerializeField] private GameObject m_NPCPrefab;
 
@@ -57,10 +56,9 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
             m_deadCarList[0].SetActive(true);
             m_deadCarList.RemoveAt(0);
         }
-        else if (m_maxNPC > 0)
+        else
         {
             Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
-            --m_maxNPC;
         }
     }
     
