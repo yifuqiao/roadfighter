@@ -44,14 +44,24 @@ namespace Photon.Pun.Demo.PunBasics
         [Tooltip("The prefab to use for representing the player")]
         [SerializeField]
         private GameObject playerPrefab;
-        [SerializeField]
-        private GameObject trackGenerator;
+        //[SerializeField]
+        //private GameObject trackGenerator;
 
         [SerializeField]
         private GameObject globalCountDownPrefab;
+
+        public int[] m_randIndexList = new int[100];
         #endregion
 
         #region MonoBehaviour CallBacks
+        [PunRPC]
+        public void SynRandomList(int[] randArray)
+        {
+            for (int i = 0; i < randArray.Length; ++i)
+            {
+                m_randIndexList[i] = randArray[i];
+            }
+        }
 
         /// <summary>
         /// MonoBehaviour method called on GameObject by Unity during initialization phase.
@@ -68,7 +78,16 @@ namespace Photon.Pun.Demo.PunBasics
 				return;
 			}
 
-			if (playerPrefab == null) { // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
+            if (PhotonNetwork.IsMasterClient)
+            {
+                for (int i = 0; i < m_randIndexList.Length; ++i)
+                {
+                    m_randIndexList[i] = (Random.Range(0, 5));
+                }
+                photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, m_randIndexList);
+            }
+
+            if (playerPrefab == null) { // #Tip Never assume public properties of Components are filled up properly, always check and inform the developer of it.
 
 				Debug.LogError("<Color=Red><b>Missing</b></Color> playerPrefab Reference. Please set it up in GameObject 'Game Manager'", this);
 			} else {
@@ -107,7 +126,7 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 if (PhotonNetwork.CurrentRoom.PlayerCount > 1 && m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 {
-                    PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+                    //PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
 
                     //Debug.Log("PhotonNetwork.CurrentRoom.PlayerCount = " + PhotonNetwork.CurrentRoom.PlayerCount);
                     PhotonNetwork.Instantiate(this.globalCountDownPrefab.name, Vector3.zero, Quaternion.identity, 0);

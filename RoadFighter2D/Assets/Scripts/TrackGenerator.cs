@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 
 public class TrackGenerator : MonoBehaviourPun 
 {
@@ -9,7 +10,6 @@ public class TrackGenerator : MonoBehaviourPun
     [SerializeField] private GameObject[] m_trackPrefabs=null;
     [SerializeField] private float[] m_trackPrefabSpawnPercentage=null;
     [SerializeField] private int m_trackTileBufferSize = 6;
-    [SerializeField] private int[] m_randIndexList = new int[100];
     
 
     [SerializeField] private GameObject m_NPCPrefab;
@@ -41,26 +41,8 @@ public class TrackGenerator : MonoBehaviourPun
         {
             Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
         }
-        if(PhotonNetwork.IsMasterClient)
-        {
-            for(int i = 0; i < m_randIndexList.Length; ++i)
-            {
-                m_randIndexList[i]=(Random.Range(0, 5));
-            }
-            photonView.RPC("SynRandomList", RpcTarget.OthersBuffered, m_randIndexList);
-        }
     }
-
-    [PunRPC]
-    public void SynRandomList(int[] randArray)
-    {
-        for (int i = 0; i < randArray.Length; ++i)
-        {
-            m_randIndexList[i] = randArray[i];
-        }
-        Destroy(GetComponent<PhotonView>());
-    }
-
+    
 
     public void SpawnNPCCar(float yPos, float xPos)
     {
@@ -77,7 +59,6 @@ public class TrackGenerator : MonoBehaviourPun
         }
     }
 
-
     // Update is called once per frame
     void Update()
     {
@@ -88,13 +69,10 @@ public class TrackGenerator : MonoBehaviourPun
 
             var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
             
-            trackTile.Spawn(m_randIndexList[m_newTileIndex% m_randIndexList.Length]);
+            trackTile.Spawn(GameManager.Instance.m_randIndexList[m_newTileIndex% GameManager.Instance.m_randIndexList.Length]);
 
             m_deadTrackList.RemoveAt(0);
             m_newTileIndex++;
-            
         }
     }
-
-    
 }
