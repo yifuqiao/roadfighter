@@ -37,13 +37,14 @@ public class PosNetworkSync : MonoBehaviourPun, IPunObservable
     {
         if(trigger.CompareTag("NPC_Car"))
         {
-            photonView.RPC("HitACar", RpcTarget.AllBuffered);
+            photonView.RPC("HitACar", RpcTarget.OthersBuffered);
+            PlayerControl.Instance.OnCollidedWithCar();
         }
     }
 
     [PunRPC]
     public void HitACar()
     {
-        PlayerControl.Instance.OnCollidedWithCar();
+        PlayerControl.OpponentInstance.OnCollidedWithCar();
     }
 }
