@@ -27,8 +27,7 @@ public class TrackTile : MonoBehaviour
 
     public void Spawn()
     {
-        var distance = PlayerControl.Instance.transform.position.y - PlayerControl.OpponentInstance.transform.position.y;
-        if (distance > 1f)
+        if(PhotonNetwork.IsMasterClient)
         {
             var index = Random.Range(0, m_leftSpawnRegionAnchors.Length);
             var anchorLeft = m_leftSpawnRegionAnchors[index];
@@ -36,17 +35,18 @@ public class TrackTile : MonoBehaviour
 
             var spawnX = Random.Range(anchorLeft.position.x, anchorRight.position.x);
 
-            TrackGenerator.Instance.SpawnNPCCar(m_leftSpawnRegionAnchors[index].position.y, spawnX);
-        }
-        else if(Mathf.Abs(distance) <= 1f && PhotonNetwork.IsMasterClient)
-        {
-            var index = Random.Range(0, m_leftSpawnRegionAnchors.Length);
-            var anchorLeft = m_leftSpawnRegionAnchors[index];
-            var anchorRight = m_rightSpawnRegionAnchors[index];
+            var yDiff = PlayerControl.Instance.transform.position.y - PlayerControl.OpponentInstance.transform.position.y;
+            var yoffset = 0f;
+            if (yDiff> 0 )// master is winning
+            {
+                
+            }
+            else // opponent is winning
+            {
+                yoffset += Mathf.Abs(yDiff);
+            }
 
-            var spawnX = Random.Range(anchorLeft.position.x, anchorRight.position.x);
-
-            TrackGenerator.Instance.SpawnNPCCar(m_leftSpawnRegionAnchors[index].position.y, spawnX);
+            TrackGenerator.Instance.SpawnNPCCar(m_leftSpawnRegionAnchors[index].position.y+ yoffset, spawnX);
         }
     }
 }
