@@ -49,6 +49,7 @@ MonoBehaviour:
   m_trackPrefabSpawnPercentage:
   - 1
   m_trackTileBufferSize: 5
+  m_randIndexList: 
   m_NPCPrefab: {fileID: 8023982063350496921, guid: 2f3479cf84eb74215b196df477ec8e1f,
     type: 3}
   m_deadTrackList: []

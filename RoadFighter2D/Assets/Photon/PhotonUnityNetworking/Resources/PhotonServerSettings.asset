@@ -34,5 +34,6 @@ MonoBehaviour:
   - RespawnSpaceship
   - SpawnRemoteNPCCar
   - HitACar
+  - SynRandomList
   DisableAutoOpenWizard: 1
   ShowSettings: 0
