@@ -16,10 +16,10 @@ public class WebServiceAPITester : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("user_code", "jason");
         form.AddField("amount", 10);
-        form.AddField("orderid", 1);
-        form.AddField("code", 1);
-        form.AddField("time", System.DateTime.Now.Millisecond);
-        form.AddField("token", TOKEN);
+        form.AddField("orderid", 1);// 订单号
+        form.AddField("code", 1); // 谷歌验证码
+        form.AddField("time", System.DateTime.Now.Second); // 当前秒
+        form.AddField("token", TOKEN); // 连接
 
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://www.qqbctoken.com/index/game/Game_recharge", form))
@@ -47,8 +47,8 @@ public class WebServiceAPITester : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("user_token", 12345);
-        form.AddField("time", System.DateTime.Now.Millisecond);
-        form.AddField("token", TOKEN);
+        form.AddField("time", System.DateTime.Now.Second);
+        form.AddField("token", TOKEN);//md5(md5(秘钥).md5(时间戳))
 
 
         using (UnityWebRequest www = UnityWebRequest.Post("https://www.qqbctoken.com/index/game/Get_user_code", form))

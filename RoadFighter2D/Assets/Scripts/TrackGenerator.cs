@@ -63,7 +63,18 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
 
     public void SpawnNPCCar(float yPos, float xPos)
     {
-        photonView.RPC("SpawnRemoteNPCCar", RpcTarget.AllBuffered, yPos, xPos);
+        //photonView.RPC("SpawnRemoteNPCCar", RpcTarget.AllBuffered, yPos, xPos);
+        if (m_deadCarList.Count > 0)
+        {
+            m_deadCarList[0].transform.position = new Vector3(xPos, yPos, 0f);
+            m_deadCarList[0].transform.rotation = Quaternion.identity;
+            m_deadCarList[0].SetActive(true);
+            m_deadCarList.RemoveAt(0);
+        }
+        else
+        {
+            Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
+        }
     }
 
     [PunRPC]
@@ -86,7 +97,7 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
     // Update is called once per frame
     void Update()
     {
-        if(m_deadTrackList.Count>0)
+        if(m_deadTrackList.Count > 0)
         {
             m_deadTrackList[0].transform.position = new Vector3(0, (float)m_newTileIndex * m_tileLength,0f);
             m_deadTrackList[0].SetActive(true);
