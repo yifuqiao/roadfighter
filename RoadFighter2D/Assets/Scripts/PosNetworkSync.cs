@@ -26,5 +26,24 @@ public class PosNetworkSync : MonoBehaviourPun, IPunObservable
         {
             m_xPos = transform.localPosition.x;
         }
+        else
+        {
+            Destroy(this.GetComponent<Collider2D>());
+            Destroy(this.GetComponent<Rigidbody2D>());
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if(trigger.CompareTag("NPC_Car"))
+        {
+            photonView.RPC("HitACar", RpcTarget.AllBuffered);
+        }
+    }
+
+    [PunRPC]
+    public void HitACar()
+    {
+        PlayerControl.Instance.OnCollidedWithCar();
     }
 }

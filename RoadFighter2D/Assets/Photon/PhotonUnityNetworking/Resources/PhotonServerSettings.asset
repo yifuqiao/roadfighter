@@ -33,5 +33,6 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - SpawnRemoteNPCCar
+  - HitACar
   DisableAutoOpenWizard: 1
   ShowSettings: 0

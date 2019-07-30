@@ -9,11 +9,20 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
     [SerializeField] private GameObject[] m_trackPrefabs=null;
     [SerializeField] private float[] m_trackPrefabSpawnPercentage=null;
     [SerializeField] private int m_trackTileBufferSize = 6;
+    [SerializeField] private int m_maxNPC = 3;
 
     [SerializeField] private GameObject m_NPCPrefab;
 
     private float m_tileLength = 0f;
     private int m_newTileIndex = 0;
+
+    public float TrackTileLength
+    {
+        get
+        {
+            return m_tileLength;
+        }
+    }
 
     public List<GameObject> m_deadTrackList = new List<GameObject>();
     public List<GameObject> m_deadCarList = new List<GameObject>();
@@ -43,9 +52,16 @@ public class TrackGenerator : MonoBehaviourPun , IPunObservable
     {
         if (m_deadCarList.Count > 0)
         {
-
+            m_deadCarList[0].transform.position = new Vector3(xPos, yPos, 0f);
+            m_deadCarList[0].transform.rotation = Quaternion.identity;
+            m_deadCarList[0].SetActive(true);
+            m_deadCarList.RemoveAt(0);
         }
-        Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
+        else if (m_maxNPC > 0)
+        {
+            Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
+            --m_maxNPC;
+        }
     }
     
 

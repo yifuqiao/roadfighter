@@ -65,7 +65,6 @@ namespace Photon.Pun.Demo.PunBasics
 			if (!PhotonNetwork.IsConnected)
 			{
 				SceneManager.LoadScene("PunBasics-Launcher");
-
 				return;
 			}
 
@@ -81,7 +80,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 					// we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
 					PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f,0f,-10f), Quaternion.identity, 0);
-                    PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+                    
                 }
                 else{
 
@@ -108,6 +107,8 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 if (PhotonNetwork.CurrentRoom.PlayerCount > 1 && m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 {
+                    PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+
                     //Debug.Log("PhotonNetwork.CurrentRoom.PlayerCount = " + PhotonNetwork.CurrentRoom.PlayerCount);
                     PhotonNetwork.Instantiate(this.globalCountDownPrefab.name, Vector3.zero, Quaternion.identity, 0);
                     m_startedTimer = true;
