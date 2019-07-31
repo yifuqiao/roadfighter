@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1803388780732659336}
   - component: {fileID: 1286573948}
   - component: {fileID: 4427353587528270487}
+  - component: {fileID: 9057209880627006101}
   - component: {fileID: 7017046747320448745}
-  - component: {fileID: 2972929677700322443}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -103,7 +103,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 4427353587528270487}
   viewIdField: 0
-  InstantiationId: 1
+  InstantiationId: 2
   isRuntimeInstantiated: 0
 --- !u!114 &4427353587528270487
 MonoBehaviour:
@@ -118,6 +118,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_syncYPos: 0
+--- !u!61 &9057209880627006101
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803388780732659337}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.01, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11, y: 0.16}
+    newSize: {x: 0.11, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.095, y: 0.16}
+  m_EdgeRadius: 0
 --- !u!50 &7017046747320448745
 Rigidbody2D:
   serializedVersion: 4
@@ -139,32 +165,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &2972929677700322443
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1803388780732659337}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -1.4, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 11, y: 16}
-    newSize: {x: 0.11, y: 0.16}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 9, y: 16}
-  m_EdgeRadius: 0
 --- !u!1 &1803388782464231309
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -263,14 +263,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_car: {fileID: 1803388780732659339}
   m_self: {fileID: 1803388782464231281}
-  m_leftRightMoveSpeed: 100
-  m_acceleration: 4
-  m_curAcceleration: 4
-  m_deceleration: -100
-  m_collisionDecelerationTimer: 60
+  m_leftRightMoveSpeed: 1
+  m_acceleration: 0.8
+  m_curAcceleration: 0.8
+  m_deceleration: -1
+  m_collisionDecelerationTimer: 0.6
   m_collisionDecelerationAccuTime: 0
   m_currentState: 0
-  MAX_SPEED: 200
+  MAX_SPEED: 4
   m_currentSpeed: 0
   m_transparentMaterial: {fileID: 2100000, guid: 4625e4b7ad3564cecbb76612aca1b550,
     type: 2}
