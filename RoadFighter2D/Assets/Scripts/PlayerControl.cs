@@ -109,9 +109,9 @@ public class PlayerControl : MonoBehaviour
         {
             case CarState.InitialLaunch:
                 if (PhotonNetwork.IsMasterClient)
-                    m_car.localPosition = new Vector3(-15f, 0f, 10f);
+                    m_car.localPosition = new Vector3(-0.15f, 0f, 10f);
                 else
-                    m_car.localPosition = new Vector3(15f,0f,10f);
+                    m_car.localPosition = new Vector3(0.15f,0f,10f);
                 if (GameManager.Instance.GameOn)
                     m_currentState = CarState.Forward;
                 break;
