@@ -37,7 +37,7 @@ public class TrackGenerator : MonoBehaviourPun
     {
         Instance = this;
 
-        m_tileLength = m_trackPrefabs[0].GetComponent<SpriteRenderer>().size.y;
+        m_tileLength = m_trackPrefabs[0].GetComponent<SpriteRenderer>().size.y*100f;
         for ( m_newTileIndex = 0; m_newTileIndex < m_trackTileBufferSize; ++m_newTileIndex)
         {
             Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
