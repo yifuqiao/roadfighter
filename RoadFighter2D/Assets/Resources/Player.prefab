@@ -264,13 +264,13 @@ MonoBehaviour:
   m_car: {fileID: 1803388780732659339}
   m_self: {fileID: 1803388782464231281}
   m_leftRightMoveSpeed: 100
-  m_acceleration: 4
-  m_curAcceleration: 4
+  m_acceleration: 40
+  m_curAcceleration: 40
   m_deceleration: -100
   m_collisionDecelerationTimer: 60
   m_collisionDecelerationAccuTime: 0
   m_currentState: 0
-  MAX_SPEED: 200
+  MAX_SPEED: 250
   m_currentSpeed: 0
   m_transparentMaterial: {fileID: 2100000, guid: 4625e4b7ad3564cecbb76612aca1b550,
     type: 2}
