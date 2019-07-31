@@ -116,7 +116,7 @@ public class PlayerControl : MonoBehaviour
                     m_currentState = CarState.Forward;
                 break;
             case CarState.Forward:
-                if(m_car.GetComponent<PhotonView>().IsMine==false&& Time.frameCount %30 == 0)
+                if(m_car.GetComponent<PhotonView>().IsMine==false)
                 {
                     var targetPos = new Vector3(m_self.position.x, m_car.GetComponent<PosNetworkSync>().m_syncYPos, m_self.position.z);
                     m_self.position = targetPos;
@@ -127,7 +127,7 @@ public class PlayerControl : MonoBehaviour
                 m_self.position += Vector3.up * m_currentSpeed * Time.deltaTime;
                 break;
             case CarState.Collision:
-                if (m_car.GetComponent<PhotonView>().IsMine == false && Time.frameCount % 30 == 0)
+                if (m_car.GetComponent<PhotonView>().IsMine == false)
                 {
                     var targetPos = new Vector3(m_self.position.x, m_car.GetComponent<PosNetworkSync>().m_syncYPos, m_self.position.z);
                     m_self.position = targetPos;
