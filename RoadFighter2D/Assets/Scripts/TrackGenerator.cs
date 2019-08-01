@@ -43,7 +43,6 @@ public class TrackGenerator : MonoBehaviourPun
             Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
         }
     }
-    
 
     public void SpawnNPCCar(float yPos, float xPos)
     {
@@ -68,9 +67,12 @@ public class TrackGenerator : MonoBehaviourPun
             m_deadTrackList[0].transform.position = new Vector3(0, (float)m_newTileIndex * m_tileLength,0f);
             m_deadTrackList[0].SetActive(true);
 
-            var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
-            
-            trackTile.Spawn(m_randIndexList[m_newTileIndex% m_randIndexList.Length]);
+            if (m_newTileIndex % 1 == 0)
+            {
+                var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
+
+                trackTile.Spawn(m_randIndexList[m_newTileIndex % m_randIndexList.Length]);
+            }
 
             m_deadTrackList.RemoveAt(0);
             m_newTileIndex++;
