@@ -105,6 +105,7 @@ namespace Photon.Pun.Demo.PunBasics
 
             if (PhotonNetwork.CurrentRoom != null)
             {
+                if (PhotonNetwork.CurrentRoom.PlayerCount > 1 && m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 if ( m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 {
                     //PhotonNetwork.Instantiate(this.trackGenerator.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
