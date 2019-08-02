@@ -10,6 +10,7 @@ public class TrackGenerator : MonoBehaviourPun
     [SerializeField] private GameObject[] m_trackPrefabs=null;
     [SerializeField] private float[] m_trackPrefabSpawnPercentage=null;
     [SerializeField] private int m_trackTileBufferSize = 6;
+    [SerializeField] private bool m_bIsOpponentTrackGenerator = false;
     
 
     [SerializeField] private GameObject m_NPCPrefab;
@@ -32,15 +33,33 @@ public class TrackGenerator : MonoBehaviourPun
     {
         private set; get;
     }
-    
+    public static TrackGenerator OpponentInstance
+    {
+        private set; get;
+    }
+
     void Awake()
     {
-        Instance = this;
+        if (m_bIsOpponentTrackGenerator)
+            OpponentInstance = this;
+        else 
+            Instance = this;
 
         m_tileLength = m_trackPrefabs[0].GetComponent<SpriteRenderer>().size.y;
         for ( m_newTileIndex = 0; m_newTileIndex < m_trackTileBufferSize; ++m_newTileIndex)
         {
-            Instantiate(m_trackPrefabs[0], new Vector3(0, (float)m_newTileIndex * m_tileLength, 0f), Quaternion.identity);
+            var go = (GameObject)Instantiate(m_trackPrefabs[0], new Vector3(transform.position.x, (float)m_newTileIndex * m_tileLength, transform.position.z), Quaternion.identity);
+            if(m_bIsOpponentTrackGenerator)
+            {
+                go.GetComponent<TrackTile>().m_bIsOpponentTrack = true;
+                go.name += "_opponent";
+            }
+            else
+            {
+                go.GetComponent<TrackTile>().m_bIsOpponentTrack = false;
+
+                go.name += "_local";
+            }
         }
     }
 
@@ -55,7 +74,17 @@ public class TrackGenerator : MonoBehaviourPun
         }
         else
         {
-            Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
+            var go = (GameObject)Instantiate(m_NPCPrefab, new Vector3(xPos, yPos, 0f), Quaternion.identity);
+            if (m_bIsOpponentTrackGenerator)
+            {
+                go.GetComponent<NPCCarBehavior>().m_bIsOpponentNPC = true;
+                go.name += "_opponent";
+            }
+            else
+            {
+                go.GetComponent<NPCCarBehavior>().m_bIsOpponentNPC = false;
+                go.name += "_local";
+            }
         }
     }
 
@@ -64,13 +93,12 @@ public class TrackGenerator : MonoBehaviourPun
     {
         if(m_deadTrackList.Count > 0)
         {
-            m_deadTrackList[0].transform.position = new Vector3(0, (float)m_newTileIndex * m_tileLength,0f);
+            m_deadTrackList[0].transform.position = new Vector3(transform.position.x, (float)m_newTileIndex * m_tileLength, transform.position.z);
             m_deadTrackList[0].SetActive(true);
 
             if (m_newTileIndex % 1 == 0)
             {
                 var trackTile = m_deadTrackList[0].GetComponent<TrackTile>();
-
                 trackTile.Spawn(m_randIndexList[m_newTileIndex % m_randIndexList.Length]);
             }
 

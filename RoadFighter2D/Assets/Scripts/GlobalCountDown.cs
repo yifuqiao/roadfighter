@@ -27,6 +27,7 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
         for(int i = 0; i < m_randIndexList.Length;++i)
         {
             TrackGenerator.Instance.m_randIndexList[i] = m_randIndexList[i];
+            TrackGenerator.OpponentInstance.m_randIndexList[i] = m_randIndexList[i];
         }
     }
 
@@ -73,12 +74,11 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
         }
-        if(m_countDownStart <= 0)
-        {
-            m_text.text = "Go!"; 
-        }
-
         m_text.text = m_countDownStart.ToString();
+        if (m_countDownStart <1)
+        {
+            m_text.text = "Go!";
+        }
     }
 
     void OnDestroy()

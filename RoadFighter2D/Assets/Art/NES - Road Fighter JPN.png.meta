@@ -15,9 +15,9 @@ TextureImporter:
     21300020: NES - Road Fighter JPN - General Sprites (1)_10
     21300022: NES - Road Fighter JPN - General Sprites (1)_11
     21300024: NES - Road Fighter JPN - General Sprites (1)_12
-    21300026: NES - Road Fighter JPN - General Sprites (1)_13
-    21300028: NES - Road Fighter JPN - General Sprites (1)_14
-    21300030: NES - Road Fighter JPN - General Sprites (1)_15
+    21300026: explosion_0
+    21300028: explosion_1
+    21300030: explosion_2
     21300032: NES - Road Fighter JPN - General Sprites (1)_16
     21300034: RedCar
     21300036: NES - Road Fighter JPN - General Sprites (1)_18
@@ -500,7 +500,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_13
+      name: explosion_0
       rect:
         serializedVersion: 2
         x: 45
@@ -520,7 +520,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_14
+      name: explosion_1
       rect:
         serializedVersion: 2
         x: 59
@@ -540,7 +540,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NES - Road Fighter JPN - General Sprites (1)_15
+      name: explosion_2
       rect:
         serializedVersion: 2
         x: 77

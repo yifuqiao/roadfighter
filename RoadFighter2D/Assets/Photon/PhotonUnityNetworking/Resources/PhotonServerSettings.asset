@@ -35,5 +35,9 @@ MonoBehaviour:
   - SpawnRemoteNPCCar
   - HitACar
   - SynRandomList
+  - SendExplosionMessage
+  - RemoteExplosion
+  - SyncEndGameMessageRPC
+  - SyncEndGameDialogRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0

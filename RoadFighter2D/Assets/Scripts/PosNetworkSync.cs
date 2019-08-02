@@ -47,4 +47,33 @@ public class PosNetworkSync : MonoBehaviourPun, IPunObservable
     {
         PlayerControl.OpponentInstance.OnCollidedWithCar();
     }
+
+    public void LocalExplosion()
+    {
+        photonView.RPC("RemoteExplosion",RpcTarget.OthersBuffered);
+    }
+
+    [PunRPC]
+    public void RemoteExplosion()
+    {
+        PlayerControl.OpponentInstance.ExplodeNow();
+    }
+
+
+    public void SyncEndGameMessage(int myWinningResult,int opponentWinningResult)
+    {
+        photonView.RPC("SyncEndGameMessageRPC", RpcTarget.OthersBuffered, myWinningResult, opponentWinningResult);
+    }
+
+    [PunRPC]
+    public void SyncEndGameMessageRPC(int myWindowMessage, int opponentWindowMessage)
+    {
+        PlayerControl.OpponentInstance.m_text.text = (myWindowMessage == 1) ? "Opponent Won!" : "Opponent Lost!";
+        PlayerControl.Instance.m_text.text = (opponentWindowMessage == 1) ? "You Won!" : "You Lost!";
+        PlayerControl.OpponentInstance.m_winLosePanel.SetActive(true);
+        PlayerControl.Instance.m_winLosePanel.SetActive(true);
+
+        PlayerControl.OpponentInstance.m_currentState = (myWindowMessage == 1) ? PlayerControl.CarState.Won : PlayerControl.OpponentInstance.m_currentState;
+        PlayerControl.Instance.m_currentState = (opponentWindowMessage == 1) ? PlayerControl.CarState.Won : PlayerControl.Instance.m_currentState;
+    }
 }

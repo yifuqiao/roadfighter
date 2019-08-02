@@ -105,6 +105,11 @@ namespace Photon.Pun.Demo.PunBasics
 
             if (PhotonNetwork.CurrentRoom != null)
             {
+                if (PhotonNetwork.CurrentRoom.MaxPlayers != 2)
+                {
+                    PhotonNetwork.CurrentRoom.MaxPlayers = 2;
+                }
+
                 if (PhotonNetwork.CurrentRoom.PlayerCount > 1 && m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 if ( m_startedTimer == false && PhotonNetwork.IsMasterClient)
                 {
@@ -113,6 +118,7 @@ namespace Photon.Pun.Demo.PunBasics
                     //Debug.Log("PhotonNetwork.CurrentRoom.PlayerCount = " + PhotonNetwork.CurrentRoom.PlayerCount);
                     PhotonNetwork.Instantiate(this.globalCountDownPrefab.name, Vector3.zero, Quaternion.identity, 0);
                     m_startedTimer = true;
+                    PhotonNetwork.CurrentRoom.IsOpen = false;
                 }
             }
         }
