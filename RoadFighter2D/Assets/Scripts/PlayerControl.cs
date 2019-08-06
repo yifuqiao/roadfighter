@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Pun.Demo.PunBasics;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
@@ -26,6 +27,13 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] public Text m_text;
     [SerializeField] public GameObject m_winLosePanel;
 
+    [SerializeField] public Text m_coinCount;
+    [SerializeField] private Text m_coinCountLabel;
+
+    public Button m_rematchButton;
+    public Button m_returnButton;
+
+    private bool m_bModifiedCoin = false;
     private bool m_bIsMovingLeft = false;
     private bool m_bIsMovingRight = false;
     private PosNetworkSync m_posNetworkSync;
@@ -85,6 +93,10 @@ public class PlayerControl : MonoBehaviour
             Destroy(GetComponent<AudioListener>());
             tag = "Untagged";
             GetComponent<Camera>().rect = m_remoteViewPortRect;
+            m_coinCountLabel.gameObject.SetActive(false);
+            m_coinCount.gameObject.SetActive(false);
+            m_rematchButton.gameObject.SetActive(false);
+            m_returnButton.gameObject.SetActive(false);
         }
         else
         {
@@ -92,6 +104,9 @@ public class PlayerControl : MonoBehaviour
             InputManager.Instance.m_onRight += OnRight;
             GetComponent<Camera>().rect = m_localViewPortRect;
             GetComponent<Camera>().depth = 0;
+            m_coinCount.text = UserProfileManager.Instance.GetUserGameCoin().ToString();
+            m_rematchButton.onClick.AddListener(new UnityAction(GameManager.Instance.LeaveRoom));
+            m_returnButton.onClick.AddListener(new UnityAction(Application.Quit));
         }
     }
 
@@ -132,6 +147,8 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m_car == null || transform == null)
+            return;
         switch(m_currentState)
         {
             case CarState.InitialLaunch:
@@ -139,7 +156,11 @@ public class PlayerControl : MonoBehaviour
                     transform.position = new Vector3(10000f, transform.position.y, transform.position.z);
 
                 if (GameManager.Instance.GameOn)
+                {
+                    if(m_posNetworkSync.photonView.IsMine)
+                        UserProfileManager.Instance.ModifyUserCoin(-1);
                     m_currentState = CarState.Forward;
+                }
                 break;
             case CarState.Forward:
                 if (m_currentSpeed < MAX_SPEED)
@@ -173,6 +194,12 @@ public class PlayerControl : MonoBehaviour
                 if (m_currentSpeed < MAX_SPEED)
                     m_currentSpeed += m_acceleration * Time.deltaTime;
                 m_self.position += Vector3.up * m_currentSpeed * Time.deltaTime;
+                if(m_bModifiedCoin==false)
+                {
+                    m_bModifiedCoin = true;
+                    if (m_posNetworkSync.photonView.IsMine)
+                        UserProfileManager.Instance.ModifyUserCoin(2);
+                }
                 break;
         }
     }
