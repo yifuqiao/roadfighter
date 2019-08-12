@@ -63,9 +63,6 @@ public class PosNetworkSync : MonoBehaviourPun, IPunObservable
     public void SyncEndGameMessage(int myWinningResult,int opponentWinningResult)
     {
         photonView.RPC("SyncEndGameMessageRPC", RpcTarget.OthersBuffered, myWinningResult, opponentWinningResult);
-        
-
-
     }
 
     [PunRPC]
@@ -79,6 +76,9 @@ public class PosNetworkSync : MonoBehaviourPun, IPunObservable
         PlayerControl.OpponentInstance.m_currentState = (myWindowMessage == 1) ? PlayerControl.CarState.Won : PlayerControl.OpponentInstance.m_currentState;
         PlayerControl.Instance.m_currentState = (opponentWindowMessage == 1) ? PlayerControl.CarState.Won : PlayerControl.Instance.m_currentState;
 
-
+        if(opponentWindowMessage== 1)
+        {
+            MusicManager.Instance.MakeSFX(MusicManager.AudioType.Win, PlayerControl.Instance.transform);
+        }
     }
 }

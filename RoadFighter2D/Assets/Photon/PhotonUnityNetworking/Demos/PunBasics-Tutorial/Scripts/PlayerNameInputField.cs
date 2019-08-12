@@ -10,6 +10,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 namespace Photon.Pun.Demo.PunBasics
 {
@@ -31,21 +32,11 @@ namespace Photon.Pun.Demo.PunBasics
 		/// <summary>
 		/// MonoBehaviour method called on GameObject by Unity during initialization phase.
 		/// </summary>
-		void Start () {
-		
-			string defaultName = string.Empty;
-			InputField _inputField = this.GetComponent<InputField>();
+		IEnumerator Start () {
 
-			if (_inputField!=null)
-			{
-				if (PlayerPrefs.HasKey(playerNamePrefKey))
-				{
-					defaultName = PlayerPrefs.GetString(playerNamePrefKey);
-					_inputField.text = defaultName;
-				}
-			}
-
-			PhotonNetwork.NickName =	defaultName;
+            UserProfileManager.Instance.GetUserCode();
+            yield return new WaitForSeconds(1f);
+			PhotonNetwork.NickName = UserProfileManager.Instance.UserName;
 		}
 
 		#endregion

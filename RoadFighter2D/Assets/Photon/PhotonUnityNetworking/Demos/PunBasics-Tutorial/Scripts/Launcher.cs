@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Photon.Realtime;
+using System.Collections;
 
 namespace Photon.Pun.Demo.PunBasics
 {
@@ -77,8 +78,17 @@ namespace Photon.Pun.Demo.PunBasics
 		}
 
         #endregion
-        private void Start()
+        private IEnumerator Start()
         {
+            UserProfileManager.Instance.GetUserCode();
+            if (loaderAnime != null)
+            {
+                loaderAnime.StartLoaderAnimation();
+            }
+            while (UserProfileManager.Instance.UserProfileRequested == false)
+                yield return null;
+
+            PhotonNetwork.NickName = UserProfileManager.Instance.UserName;
             Connect();
         }
 
@@ -101,10 +111,7 @@ namespace Photon.Pun.Demo.PunBasics
 			controlPanel.SetActive(false);
 
 			// start the loader animation for visual effect.
-			if (loaderAnime!=null)
-			{
-				loaderAnime.StartLoaderAnimation();
-			}
+			
 
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 			if (PhotonNetwork.IsConnected)

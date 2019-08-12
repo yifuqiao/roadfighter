@@ -155,6 +155,10 @@ namespace Photon.Pun.Demo.PunBasics
 			{
 				Debug.LogFormat( "OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient ); // called before OnPlayerLeftRoom
 			}
+            if(other.IsLocal == false)
+            {
+                PlayerControl.Instance.CheckIfOpponentLeft();
+            }
 		}
 
 		/// <summary>
@@ -162,8 +166,9 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 		public override void OnLeftRoom()
 		{
-			SceneManager.LoadScene("PunBasics-Launcher");
-		}
+            PlayerControl.Instance.OnCollidedWithWall();
+            SceneManager.LoadScene("PunBasics-Launcher");
+        }
 
 		#endregion
 
@@ -179,14 +184,19 @@ namespace Photon.Pun.Demo.PunBasics
 			Application.Quit();
 		}
 
-		#endregion
+        private void OnApplicationQuit()
+        {
+            PlayerControl.Instance.OnCollidedWithWall();
+        }
 
-		#region Private Methods
+        #endregion
 
-		
+        #region Private Methods
 
-		#endregion
 
-	}
+
+        #endregion
+
+    }
 
 }

@@ -23,6 +23,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Rect m_remoteViewPortRect;
     [SerializeField] private int m_maxLife = 3;
     [SerializeField] private GameObject[] m_lifeArray;
+    [SerializeField] private AudioClip[] m_engineSounds;
+    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private GameObject m_backgroundObj;
 
     [SerializeField] public Text m_text;
     [SerializeField] public GameObject m_winLosePanel;
@@ -97,16 +100,19 @@ public class PlayerControl : MonoBehaviour
             m_coinCount.gameObject.SetActive(false);
             m_rematchButton.gameObject.SetActive(false);
             m_returnButton.gameObject.SetActive(false);
+            m_backgroundObj.SetActive(true);
         }
         else
         {
+            m_coinCountLabel.text = UserProfileManager.Instance.UserName;
             InputManager.Instance.m_onLeft += OnLeft;
             InputManager.Instance.m_onRight += OnRight;
             GetComponent<Camera>().rect = m_localViewPortRect;
             GetComponent<Camera>().depth = 0;
-            m_coinCount.text = UserProfileManager.Instance.GetUserGameCoin().ToString();
+            m_coinCount.text = "Game Coin: " + UserProfileManager.Instance.GetUserGameCoin().ToString();
             m_rematchButton.onClick.AddListener(new UnityAction(GameManager.Instance.LeaveRoom));
             m_returnButton.onClick.AddListener(new UnityAction(Application.Quit));
+            m_backgroundObj.SetActive(false);
         }
     }
 
@@ -154,11 +160,13 @@ public class PlayerControl : MonoBehaviour
             case CarState.InitialLaunch:
                 if (m_car.GetComponent<PhotonView>().IsMine == false)
                     transform.position = new Vector3(10000f, transform.position.y, transform.position.z);
-
                 if (GameManager.Instance.GameOn)
                 {
-                    if(m_posNetworkSync.photonView.IsMine)
+                    if (m_posNetworkSync.photonView.IsMine)
+                    {
                         UserProfileManager.Instance.ModifyUserCoin(-1);
+                        m_coinCount.text = "Game Coin: " + UserProfileManager.Instance.GetUserGameCoin().ToString();
+                    }
                     m_currentState = CarState.Forward;
                 }
                 break;
@@ -166,6 +174,25 @@ public class PlayerControl : MonoBehaviour
                 if (m_currentSpeed < MAX_SPEED)
                     m_currentSpeed += m_acceleration * Time.deltaTime;
                 m_self.position += Vector3.up * m_currentSpeed * Time.deltaTime;
+                
+                if(m_currentSpeed<MAX_SPEED*0.33f)
+                {
+                    m_audioSource.clip = m_engineSounds[0];
+                }
+                else if(m_currentSpeed > MAX_SPEED * 0.6f)
+                {
+                    m_audioSource.clip = m_engineSounds[2];
+                }
+                else
+                {
+                    m_audioSource.clip = m_engineSounds[1];
+                }
+                m_audioSource.volume = (m_currentSpeed / MAX_SPEED);
+                if (m_audioSource.isPlaying == false && m_posNetworkSync.photonView.IsMine)
+                {
+                    m_audioSource.Play();
+                }
+                
                 break;
             case CarState.Collision:
                 if (m_maxLife == 0 && Instance == this)
@@ -189,6 +216,7 @@ public class PlayerControl : MonoBehaviour
                 
                 break;
             case CarState.Explosion:
+                m_audioSource.Stop();
                 break;
             case CarState.Won:
                 if (m_currentSpeed < MAX_SPEED)
@@ -198,22 +226,49 @@ public class PlayerControl : MonoBehaviour
                 {
                     m_bModifiedCoin = true;
                     if (m_posNetworkSync.photonView.IsMine)
+                    {
                         UserProfileManager.Instance.ModifyUserCoin(2);
+                        m_coinCount.text = "Game Coin: " + UserProfileManager.Instance.GetUserGameCoin().ToString();
+                    }
                 }
+                m_audioSource.Stop();
                 break;
+        }
+    }
+
+    public void CheckIfOpponentLeft()
+    {
+        if(m_posNetworkSync.photonView.IsMine)
+        {
+            m_posNetworkSync.SyncEndGameMessage(1, 0);
+            OpponentInstance.m_text.text = "Opponent Left";
+            OpponentInstance.m_winLosePanel.SetActive(true);
+
+            m_currentState = CarState.Won;
+            m_text.text = "You Won!";
+            m_winLosePanel.SetActive(true);
         }
     }
 
     public void OnCollidedWithCar()
     {
-        if(m_currentState == CarState.Forward)
+        if (m_currentState == CarState.Forward)
+        {
             m_maxLife--;
+            if(m_posNetworkSync.photonView.IsMine)
+                MusicManager.Instance.MakeSFX(MusicManager.AudioType.Collision, transform);
+            if (m_maxLife == 1 && m_posNetworkSync.photonView.IsMine)
+            {
+                //MusicManager.Instance.MakeSFX(MusicManager.AudioType.LastLife, transform);
+            }
+        }
 
         m_currentState = CarState.Collision;
 
         if (m_maxLife>=0)
             m_lifeArray[m_maxLife].SetActive(false);
 
+        m_audioSource.Stop();
         
     }
 
@@ -224,9 +279,12 @@ public class PlayerControl : MonoBehaviour
         m_posNetworkSync.SyncEndGameMessage(0, 1);
         m_text.text = "You Lost!";
         m_winLosePanel.SetActive(true);
-        OpponentInstance.m_text.text = "Opponent Won!";
-        OpponentInstance.m_winLosePanel.SetActive(true);
-        OpponentInstance.m_currentState = CarState.Won;
+        if (OpponentInstance != null)
+        {
+            OpponentInstance.m_text.text = "Opponent Won!";
+            OpponentInstance.m_winLosePanel.SetActive(true);
+            OpponentInstance.m_currentState = CarState.Won;
+        }
     }
 
     public void ExplodeNow()
@@ -235,5 +293,9 @@ public class PlayerControl : MonoBehaviour
         m_explosionAnimation.transform.position = m_car.position;
         m_explosionAnimation.SetActive(true);
         m_car.gameObject.SetActive(false);
+
+
+        if(m_posNetworkSync.photonView.IsMine)
+            MusicManager.Instance.MakeSFX(MusicManager.AudioType.Explosion, transform);
     }
 }

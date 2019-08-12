@@ -57,7 +57,8 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
             this.m_countDownStart = (int)stream.ReceiveNext();
         }
     }
-
+    bool played1 = false;
+    bool played2 = false;
     // Update is called once per frame
     void Update()
     {
@@ -68,6 +69,7 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
             {
                 m_countDownStart -= 1;
                 m_accuTime = 0;
+                
                 if(m_countDownStart<0)
                 {
                     PhotonNetwork.Destroy(gameObject);
@@ -75,8 +77,19 @@ public class GlobalCountDown : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
         m_text.text = m_countDownStart.ToString();
-        if (m_countDownStart <1)
+        if (m_countDownStart == 1 && played1==false)
         {
+            played1 = true;
+            MusicManager.Instance.MakeSFX(MusicManager.AudioType.CountDown0, PlayerControl.Instance.transform);
+        }
+       
+        if (m_countDownStart == 0 )
+        {
+            if(played2 == false)
+            {
+                played2 = true;
+                MusicManager.Instance.MakeSFX(MusicManager.AudioType.CountDown1, PlayerControl.Instance.transform);
+            }
             m_text.text = "Go!";
         }
     }
